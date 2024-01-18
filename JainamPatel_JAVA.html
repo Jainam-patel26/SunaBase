@@ -113,7 +113,7 @@
             const loginId = document.getElementById("login_id").value;
             const password = document.getElementById("password").value;
 
-            fetch('https://qa2.sunbasedata.com/sunbase/portal/api/assignment_auth.jsp', {
+            fetch('https://qa.sunbasedata.com/sunbase/portal/api/assignment_auth.jsp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -141,7 +141,6 @@
         function createCustomer() {
             const firstName = document.getElementById("first_name").value;
             const lastName = document.getElementById("last_name").value;
-            const street = document.getElementById("street").value;
             const address = document.getElementById("address").value;
             const city = document.getElementById("city").value;
             const state = document.getElementById("state").value;
@@ -153,7 +152,7 @@
                 return;
             }
 
-            fetch('https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=create', {
+            fetch('https://qa.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=create', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
@@ -162,7 +161,6 @@
                 body: JSON.stringify({
                     first_name: firstName,
                     last_name: lastName,
-                    street: street,
                     address: address,
                     city: city,
                     state: state,
@@ -187,7 +185,7 @@
         }
 
         function deleteCustomer(uuid) {
-            fetch(`https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=delete&uuid=${uuid}`, {
+            fetch(`https://qa.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=delete&uuid=${uuid}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
@@ -196,7 +194,7 @@
                 .then(response => {
                     if (response.status === 200) {
                         alert('Customer deleted successfully!');
-                        fetchCustomerList(); 
+                        fetchCustomerList();
                     } else if (response.status === 500) {
                         alert('Error: Customer not deleted.');
                     } else if (response.status === 400) {
@@ -215,7 +213,7 @@
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("add-customer-screen").style.display = "none";
             document.getElementById("customer-list-screen").style.display = "block";
-            fetchCustomerList(); 
+            fetchCustomerList();
         }
 
         // Example customer data for testing
@@ -243,7 +241,7 @@
         ];
 
         function fetchCustomerList() {
-            fetch('https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=get_customer_list', {
+            fetch('https://qa.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=get_customer_list', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
@@ -269,8 +267,8 @@
                             <td>${customer.email}</td>
                             <td>${customer.phone}</td>
                             <td>
-                            <button onclick="updateCustomer('${customer.uuid}')">Edit</button>
-                            <button onclick="deleteCustomer('${customer.uuid}')">Delete</button>
+                                <button onclick="updateCustomer('${customer.uuid}')">Edit</button>
+                                <button onclick="deleteCustomer('${customer.uuid}')">Delete</button>
                             </td>
                         `;
                         customerTableBody.appendChild(row);
@@ -285,7 +283,6 @@
         function updateCustomer(uuid) {
             const firstName = document.getElementById("first_name").value;
             const lastName = document.getElementById("last_name").value;
-            const street = document.getElementById("street").value;
             const address = document.getElementById("address").value;
             const city = document.getElementById("city").value;
             const state = document.getElementById("state").value;
@@ -293,12 +290,12 @@
             const phone = document.getElementById("phone").value;
 
             // Check if the body is empty
-            if (!firstName && !lastName && !street && !address && !city && !state && !email && !phone) {
+            if (!firstName && !lastName && !address && !city && !state && !email && !phone) {
                 alert('Body is empty.');
                 return;
             }
 
-            fetch(`https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=update&uuid=${uuid}`, {
+            fetch(`https://qa.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=update&uuid=${uuid}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
@@ -307,7 +304,6 @@
                 body: JSON.stringify({
                     first_name: firstName,
                     last_name: lastName,
-                    street: street,
                     address: address,
                     city: city,
                     state: state,
@@ -333,7 +329,6 @@
                 });
         }
 
-
         function showAddCustomerScreen() {
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("customer-list-screen").style.display = "none";
@@ -341,7 +336,6 @@
         }
 
         function logout() {
-            // Implement logout logic, for example, redirecting to the login screen
             document.getElementById("login-screen").style.display = "block";
             document.getElementById("customer-list-screen").style.display = "none";
             document.getElementById("add-customer-screen").style.display = "none";
